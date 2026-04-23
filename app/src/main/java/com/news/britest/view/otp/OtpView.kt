@@ -6,11 +6,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.news.britest.databinding.ActivityOtpBinding
+import com.news.britest.network.Resource
+import com.news.britest.shared.extensions.showDialogError
+import com.news.britest.viewmodel.OtpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OtpView : AppCompatActivity() {
 
     companion object {
@@ -19,6 +26,7 @@ class OtpView : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityOtpBinding
+    private val viewModel: OtpViewModel by viewModels()
     private lateinit var otpFields: List<EditText>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +38,8 @@ class OtpView : AppCompatActivity() {
         binding.modifyToolbar.setTitle("OTP")
         setupOtp()
         setupVerify()
+
+        observe()
     }
 
     private fun setupOtp() {
@@ -113,7 +123,6 @@ class OtpView : AppCompatActivity() {
     }
 
     private fun setupVerify() {
-
         binding.btnVerify.setOnClickListener {
 
             val otp = getOtp()
@@ -123,7 +132,7 @@ class OtpView : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            verifyOtp(otp)
+            viewModel.verifyOtp(otp)
         }
     }
 
@@ -131,11 +140,41 @@ class OtpView : AppCompatActivity() {
         binding.btnVerify.isEnabled = getOtp().length == 6
     }
 
-    private fun verifyOtp(otp: String) {
-        if (otp == "123456") {
-            Toast.makeText(this, "OTP Verified ✅", Toast.LENGTH_SHORT).show()
+
+    private fun observe() {
+        viewModel.state.observe(this) { resource ->
+            when (resource) {
+
+                is Resource.Loading -> {
+                    isLoading(true)
+                    binding.btnVerify.isEnabled = false
+                }
+
+                is Resource.Success -> {
+                    isLoading()
+                    binding.btnVerify.isEnabled = true
+
+                    if (resource.data.success) {
+                        Toast.makeText(this, "OTP Verified ✅", Toast.LENGTH_SHORT).show()
+                    } else {
+                        showDialogError("Error", resource.data.message)
+                    }
+                }
+
+                is Resource.Error -> {
+                    isLoading()
+                    binding.btnVerify.isEnabled = true
+                    showDialogError("Error", resource.message)
+                }
+            }
+        }
+    }
+
+    private fun isLoading(load: Boolean = false) {
+        if (load) {
+            binding.progressbar.visibility = View.VISIBLE
         } else {
-            Toast.makeText(this, "OTP Salah ❌", Toast.LENGTH_SHORT).show()
+            binding.progressbar.visibility = View.GONE
         }
     }
 }

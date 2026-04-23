@@ -1,5 +1,6 @@
 package com.news.britest.di
 
+import com.news.britest.dummy.FakeOtpInterceptor
 import com.news.britest.dummy.FakeResponseInterceptor
 import com.news.britest.network.API
 import dagger.Module
@@ -24,6 +25,7 @@ object NetworkModule {
 
         return OkHttpClient.Builder()
             .addInterceptor(FakeResponseInterceptor())
+            .addInterceptor(FakeOtpInterceptor())
             .addInterceptor(logging)
             .build()
     }
