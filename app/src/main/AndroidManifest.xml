@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BRITest">
         <activity
+            android:name=".view.otp.OtpView"
+            android:exported="false" />
+        <activity
             android:name=".view.LoginView"
             android:exported="true">
             <intent-filter>

@@ -2,14 +2,12 @@ package com.news.britest.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.news.britest.R
 import com.news.britest.databinding.ActivityLoginBinding
-import com.news.britest.network.API
 import com.news.britest.network.Resource
 import com.news.britest.shared.extensions.showDialogError
+import com.news.britest.view.otp.OtpView
 import com.news.britest.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +32,7 @@ class LoginView : AppCompatActivity() {
     private fun isLoading(load: Boolean = false) {
         if (load) {
             binding.progressbar.visibility = View.VISIBLE
-        } else{
+        } else {
             binding.progressbar.visibility = View.GONE
         }
     }
@@ -49,7 +47,7 @@ class LoginView : AppCompatActivity() {
                 is Resource.Success -> {
                     isLoading()
                     if (result.data.success) {
-                        Toast.makeText(this, "Success: ${result.data.token}", Toast.LENGTH_SHORT).show()
+                        startActivity(OtpView.newIntent(this))
                     } else {
                         showDialogError("Login Gagal", result.data.message)
                     }
