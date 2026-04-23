@@ -21,15 +21,13 @@ class LoginViewModel @Inject constructor(
     fun login(username: String, password: String) {
         _loginState.value = Resource.Loading
 
-        viewModelScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
+        viewModelScope.launch {
                 try {
                     val response = repository.login(username, password)
                     _loginState.value = Resource.Success(response)
                 } catch (e: Exception) {
                     _loginState.value = Resource.Error(e.message ?: "Unknown error")
                 }
-            }
         }
     }
 }

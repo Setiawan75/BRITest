@@ -26,6 +26,10 @@ glide = "5.0.5"
 compiler = "5.0.7"
 lottie = "6.7.1"
 activityKtx = "1.13.0"
+coroutines-test = "1.7.3"
+mockk = "1.13.8"
+core-testing = "2.2.0"
+turbine = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +58,11 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "compiler" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+#UNIT TEST
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines-test" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
