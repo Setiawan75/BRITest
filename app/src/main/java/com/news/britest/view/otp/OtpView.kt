@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.news.britest.databinding.ActivityOtpBinding
 import com.news.britest.network.Resource
 import com.news.britest.shared.extensions.showDialogError
+import com.news.britest.view.success.SuccessView
 import com.news.britest.viewmodel.OtpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -155,7 +156,7 @@ class OtpView : AppCompatActivity() {
                     binding.btnVerify.isEnabled = true
 
                     if (resource.data.success) {
-                        Toast.makeText(this, "OTP Verified ✅", Toast.LENGTH_SHORT).show()
+                        startActivity(SuccessView.newIntent(this))
                     } else {
                         showDialogError("Error", resource.data.message)
                     }
