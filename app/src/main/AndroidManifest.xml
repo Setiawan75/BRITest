@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BRITest">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.LoginView"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
